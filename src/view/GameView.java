@@ -95,30 +95,18 @@ public class GameView
         ball.setTranslateY(0);
     }
 
+    //playerX: <= -530 && >= -540
+    //oppX: >= 510 && <= 515
+
     private void checkForCollision()
     {
         if (ball.getTranslateX() <= -530 && ball.getTranslateX() >= -540)
         {
-            if (ball.getTranslateY() + 20 > player.getTranslateY())
+            if (ball.getTranslateY() >= player.getTranslateY() && ball.getTranslateY() <= player.getTranslateY() + 33)
             {
-                if (ball.getTranslateY() < player.getTranslateY() + 100)
-                {
-                    ball.setXSpeed(-ball.getXSpeed());
-                    ball.setColor(playerColor);
-                }
+                System.out.println("hello");
             }
-        }
-
-        if (ball.getTranslateX() >= 510 && ball.getTranslateX() <= 515)
-        {
-            if (ball.getTranslateY() + 20 > opponent.getTranslateY())
-            {
-                if (ball.getTranslateY() < opponent.getTranslateY() + 100)
-                {
-                    ball.setXSpeed(-ball.getXSpeed());
-                    ball.setColor(opponentColor);
-                }
-            }
+            else if (ball.getTranslateY() >= player.getTranslateY() + 33 && ball.getTranslateY() <= player.getTranslateY() + 33)
         }
     }
 

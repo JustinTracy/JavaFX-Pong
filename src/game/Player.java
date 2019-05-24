@@ -81,4 +81,14 @@ public class Player extends Rectangle
             }
         });
     }
+
+    public boolean getIsUpKeyPressed()
+    {
+        return isUpKeyPressed;
+    }
+
+    public boolean getIsDownKeyPressed()
+    {
+        return isDownKeyPressed;
+    }
 }
