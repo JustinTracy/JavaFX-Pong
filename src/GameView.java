@@ -1,5 +1,6 @@
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -54,7 +55,7 @@ public class GameView
 
     private void checkForPoint()
     {
-        if (ball.getTranslateX() < -600)
+        if (ball.getTranslateX() <= -600)
         {
             if (!cooldown)
             {
@@ -64,7 +65,7 @@ public class GameView
                 thread.start();
             }
         }
-        if (ball.getTranslateX() > 600)
+        if (ball.getTranslateX() >= 600)
         {
             if (!cooldown)
             {
@@ -87,7 +88,7 @@ public class GameView
 
     private void checkForCollision()
     {
-        if (ball.getTranslateX() == -550)
+        if (ball.getTranslateX() <= -530 && ball.getTranslateX() >= -540)
         {
             if (ball.getTranslateY() + 20 > player.getTranslateY())
             {
@@ -99,7 +100,7 @@ public class GameView
             }
         }
 
-        if (ball.getTranslateX() == 530)
+        if (ball.getTranslateX() >= 510 && ball.getTranslateX() <= 515)
         {
             if (ball.getTranslateY() + 20 > opponent.getTranslateY())
             {
@@ -117,7 +118,7 @@ public class GameView
         pongSubScene = new PongSubScene(1150, 450, 100, 100);
 
         player = new Player(gameScene, gamePane);
-        player.setLayoutX(20);
+        player.setLayoutX(40);
         player.setLayoutY(225);
 
         ball = new Ball(pongSubScene);
@@ -125,7 +126,7 @@ public class GameView
         ball.setLayoutY(225);
 
         opponent = new Opponent(ball);
-        opponent.setLayoutX(1110);
+        opponent.setLayoutX(1090);
         opponent.setLayoutY(225);
 
         pongSubScene.getPane().getChildren().addAll(ball, player, opponent);

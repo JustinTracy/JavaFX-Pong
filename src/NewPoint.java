@@ -52,8 +52,8 @@ public class NewPoint implements Runnable
             directionY = -1;
         }
 
-        ball.setXSpeed(5 * directionX);
-        ball.setYSpeed(5 * directionY);
+        ball.setXSpeed(10 * directionX);
+        ball.setYSpeed(8 * directionY);
         gameView.setCooldown(false);
     }
 }

@@ -8,7 +8,7 @@ public class Opponent extends Rectangle
 
     private Ball ball;
 
-    private static int speed = 3;
+    private static int speed = 6;
 
     private boolean isThreadActive = false;
 

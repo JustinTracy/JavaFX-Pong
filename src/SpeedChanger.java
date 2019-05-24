@@ -19,11 +19,11 @@ public class SpeedChanger implements Runnable
 
         if (randNum >= 10)
         {
-            opponent.setSpeed(3);
+            opponent.setSpeed(6);
         }
         else
         {
-            opponent.setSpeed(2);
+            opponent.setSpeed(4);
         }
 
         try
