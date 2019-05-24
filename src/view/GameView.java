@@ -97,29 +97,7 @@ public class GameView
 
     private void checkForCollision()
     {
-        if (ball.getTranslateX() <= -530 && ball.getTranslateX() >= -540)
-        {
-            if (ball.getTranslateY() + 20 > player.getTranslateY())
-            {
-                if (ball.getTranslateY() < player.getTranslateY() + 100)
-                {
-                    ball.setXSpeed(-ball.getXSpeed());
-                    ball.setColor(playerColor);
-                }
-            }
-        }
 
-        if (ball.getTranslateX() >= 510 && ball.getTranslateX() <= 515)
-        {
-            if (ball.getTranslateY() + 20 > opponent.getTranslateY())
-            {
-                if (ball.getTranslateY() < opponent.getTranslateY() + 100)
-                {
-                    ball.setXSpeed(-ball.getXSpeed());
-                    ball.setColor(opponentColor);
-                }
-            }
-        }
     }
 
     private void createSubScene()
