@@ -9,6 +9,7 @@ public class GameView
     private Scene gameScene;
 
     private PongSubScene pongSubScene;
+    private Player player;
     private Ball ball;
 
     public GameView()
@@ -29,11 +30,16 @@ public class GameView
     private void createSubScene()
     {
         pongSubScene = new PongSubScene(1150, 450, 100, 100);
+
+        player = new Player(gameScene, gamePane);
+        player.setLayoutX(20);
+        player.setLayoutY(225);
+
         ball = new Ball(pongSubScene);
         ball.setLayoutX(575);
         ball.setLayoutY(225);
 
-        pongSubScene.getPane().getChildren().add(ball);
+        pongSubScene.getPane().getChildren().addAll(ball, player);
         gamePane.getChildren().add(pongSubScene);
     }
 }
