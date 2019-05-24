@@ -22,11 +22,6 @@ public class MenuView
         menuScene = new Scene(menuPane);
         menuStage.setScene(menuScene);
         menuStage.show();
-
-        Ball ball = new Ball();
-        ball.setLayoutX(100);
-        ball.setLayoutY(100);
-        menuPane.getChildren().add(ball);
     }
 }
 
