@@ -1,3 +1,7 @@
+package game.threads;
+
+import game.Opponent;
+
 import java.util.Random;
 
 public class SpeedChanger implements Runnable

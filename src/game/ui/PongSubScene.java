@@ -1,3 +1,5 @@
+package game.ui;
+
 import javafx.scene.SubScene;
 import javafx.scene.layout.AnchorPane;
 

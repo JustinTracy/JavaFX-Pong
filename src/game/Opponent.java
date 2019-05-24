@@ -1,3 +1,6 @@
+package game;
+
+import game.threads.SpeedChanger;
 import javafx.animation.AnimationTimer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;

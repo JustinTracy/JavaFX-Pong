@@ -1,3 +1,6 @@
+package game;
+
+import game.ui.PongSubScene;
 import javafx.animation.AnimationTimer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -11,8 +14,8 @@ public class Ball extends Rectangle
     private PongSubScene pongSubScene;
 
     private static final int SIZE = 20;
-    private static int xSpeed = 2;
-    private static int ySpeed = 2;
+    private static int xSpeed = 10;
+    private static int ySpeed = 8;
 
     public Ball(PongSubScene pongSubScene)
     {

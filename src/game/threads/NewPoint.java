@@ -1,3 +1,8 @@
+package game.threads;
+
+import game.Ball;
+import view.GameView;
+
 import java.util.Random;
 
 public class NewPoint implements Runnable

@@ -1,9 +1,15 @@
+package view;
+
+import game.Ball;
+import game.Opponent;
+import game.Player;
+import game.threads.NewPoint;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
-import javafx.scene.SubScene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import game.ui.PongSubScene;
 
 public class GameView
 {
@@ -22,6 +28,9 @@ public class GameView
     private Color opponentColor = Color.rgb(50,122,178);
 
     private boolean cooldown = false;
+
+    // When the player hits the ball as they are going up or down, it will change the y speed of the ball
+    // Make it so that every time that the ball bounces off the ceiling or ground, the x and y speeds with revert to default
 
     public GameView()
     {
