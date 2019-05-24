@@ -18,7 +18,7 @@ public class Opponent extends Rectangle
 
         createAnimationTimer();
 
-        this.setFill(Color.RED);
+        this.setFill(Color.BLUE);
         this.setWidth(20);
         this.setHeight(100);
     }
@@ -30,7 +30,6 @@ public class Opponent extends Rectangle
             @Override
             public void handle(long now)
             {
-                System.out.println(isThreadActive);
                 move();
             }
         };

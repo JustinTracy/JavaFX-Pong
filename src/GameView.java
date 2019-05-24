@@ -1,5 +1,7 @@
+import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class GameView
@@ -12,6 +14,11 @@ public class GameView
     private Player player;
     private Opponent opponent;
     private Ball ball;
+
+    private AnimationTimer animationTimer;
+
+    private Color playerColor = Color.rgb(178,34,34);
+    private Color opponentColor = Color.rgb(50,122,178);
 
     public GameView()
     {
@@ -26,6 +33,47 @@ public class GameView
         gameStage.show();
 
         createSubScene();
+        createAnimationTimer();
+    }
+
+    private void createAnimationTimer()
+    {
+        animationTimer = new AnimationTimer()
+        {
+            @Override
+            public void handle(long now)
+            {
+                checkForCollision();
+            }
+        };
+        animationTimer.start();
+    }
+
+    private void checkForCollision()
+    {
+        if (ball.getTranslateX() == -550)
+        {
+            if (ball.getTranslateY() + 20 > player.getTranslateY())
+            {
+                if (ball.getTranslateY() < player.getTranslateY() + 100)
+                {
+                    ball.setXSpeed(-ball.getXSpeed());
+                    ball.setColor(playerColor);
+                }
+            }
+        }
+
+        if (ball.getTranslateX() == 530)
+        {
+            if (ball.getTranslateY() + 20 > opponent.getTranslateY())
+            {
+                if (ball.getTranslateY() < opponent.getTranslateY() + 100)
+                {
+                    ball.setXSpeed(-ball.getXSpeed());
+                    ball.setColor(opponentColor);
+                }
+            }
+        }
     }
 
     private void createSubScene()

@@ -17,7 +17,7 @@ public class SpeedChanger implements Runnable
     {
         int randNum = rnd.nextInt(100) + 1;
 
-        if (randNum >= 25)
+        if (randNum >= 10)
         {
             opponent.setSpeed(3);
         }
@@ -35,7 +35,6 @@ public class SpeedChanger implements Runnable
             e.printStackTrace();
         }
 
-        System.out.println(1212);
         opponent.setIsThreadActive(false);
     }
 }
