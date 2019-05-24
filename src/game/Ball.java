@@ -44,11 +44,11 @@ public class Ball extends Rectangle
     {
         if (this.getTranslateY() <= -230)
         {
-            ySpeed = -8;
+            ySpeed = -ySpeed;
         }
         if (this.getTranslateY() >= 210)
         {
-            ySpeed = 8;
+            ySpeed = -ySpeed;
         }
 
         this.setTranslateY(this.getTranslateY() - ySpeed);

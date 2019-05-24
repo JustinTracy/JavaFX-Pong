@@ -31,6 +31,7 @@ public class GameView
 
     private boolean cooldown = false;
     private Random rnd = new Random();
+    private Thread newPointThread;
 
     // When the player hits the ball as they are going up or down, it will change the y speed of the ball
     // Make it so that every time that the ball bounces off the ceiling or ground, the x and y speeds with revert to default
@@ -73,8 +74,8 @@ public class GameView
             {
                 cooldown = true;
                 relocateBall();
-                Thread thread = new Thread(new NewPoint(ball, this));
-                thread.start();
+                newPointThread = new Thread(new NewPoint(ball, this));
+                newPointThread.start();
             }
         }
         if (ball.getTranslateX() >= 600)
@@ -83,8 +84,8 @@ public class GameView
             {
                 cooldown = true;
                 relocateBall();
-                Thread thread = new Thread(new NewPoint(ball, this));
-                thread.start();
+                newPointThread = new Thread(new NewPoint(ball, this));
+                newPointThread.start();
             }
         }
     }
@@ -98,16 +99,13 @@ public class GameView
         ball.setTranslateY(0);
     }
 
-    //playerX: <= -530 && >= -540
-    //oppX: >= 510 && <= 515
-
     private void checkForCollision()
     {
         if (ball.getTranslateY() >= player.getTranslateY() && ball.getTranslateY() <= player.getTranslateY() + 33)
         {
             if (ball.getTranslateX() <= -530 && ball.getTranslateX() >= -540)
             {
-                ball.setColor(Color.RED);
+                ball.setColor(playerColor);
                 ball.setXSpeed(-ball.getXSpeed());
                 ball.setYSpeed(8);
             }
@@ -116,7 +114,7 @@ public class GameView
         {
             if (ball.getTranslateX() <= -530 && ball.getTranslateX() >= -540)
             {
-                ball.setColor(Color.RED);
+                ball.setColor(playerColor);
                 ball.setXSpeed(-ball.getXSpeed());
                 ball.setYSpeed(-8);
             }
@@ -125,13 +123,14 @@ public class GameView
         {
             if (ball.getTranslateX() <= -530 && ball.getTranslateX() >= -540)
             {
-                ball.setColor(Color.RED);
+                ball.setColor(playerColor);
                 ball.setXSpeed(-ball.getXSpeed());
-                if (rnd.nextInt(1) == 0)
+                int randNum = rnd.nextInt(2) + 1;
+                if (randNum == 1)
                 {
                     ball.setYSpeed(-2);
                 }
-                else
+                else if (randNum + 0 == 2)
                 {
                     ball.setYSpeed(2);
                 }
@@ -142,7 +141,7 @@ public class GameView
         {
             if (ball.getTranslateX() >= 510 && ball.getTranslateX() <= 515)
             {
-                ball.setColor(Color.RED);
+                ball.setColor(opponentColor);
                 ball.setXSpeed(-ball.getXSpeed());
                 ball.setYSpeed(8);
             }
@@ -151,7 +150,7 @@ public class GameView
         {
             if (ball.getTranslateX() >= 510 && ball.getTranslateX() <= 515)
             {
-                ball.setColor(Color.RED);
+                ball.setColor(opponentColor);
                 ball.setXSpeed(-ball.getXSpeed());
                 ball.setYSpeed(-8);
             }
@@ -160,13 +159,14 @@ public class GameView
         {
             if (ball.getTranslateX() >= 510 && ball.getTranslateX() <= 515)
             {
-                ball.setColor(Color.RED);
+                ball.setColor(opponentColor);
                 ball.setXSpeed(-ball.getXSpeed());
-                if (rnd.nextInt(1) == 0)
+                int randNum = rnd.nextInt(2) + 1;
+                if (randNum == 1)
                 {
                     ball.setYSpeed(-2);
                 }
-                else
+                else if (randNum == 2)
                 {
                     ball.setYSpeed(2);
                 }
