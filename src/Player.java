@@ -23,7 +23,7 @@ public class Player extends Rectangle
         createAnimationTimer();
         addActionListeners();
 
-        this.setFill(Color.WHITE);
+        this.setFill(Color.RED);
         this.setWidth(20);
         this.setHeight(100);
     }

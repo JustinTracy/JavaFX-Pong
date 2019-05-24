@@ -10,6 +10,7 @@ public class GameView
 
     private PongSubScene pongSubScene;
     private Player player;
+    private Opponent opponent;
     private Ball ball;
 
     public GameView()
@@ -39,7 +40,11 @@ public class GameView
         ball.setLayoutX(575);
         ball.setLayoutY(225);
 
-        pongSubScene.getPane().getChildren().addAll(ball, player);
+        opponent = new Opponent(ball);
+        opponent.setLayoutX(1110);
+        opponent.setLayoutY(225);
+
+        pongSubScene.getPane().getChildren().addAll(ball, player, opponent);
         gamePane.getChildren().add(pongSubScene);
     }
 }

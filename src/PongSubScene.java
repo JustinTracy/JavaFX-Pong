@@ -12,7 +12,7 @@ public class PongSubScene extends SubScene
         this.setLayoutY(y);
 
         AnchorPane root2 = (AnchorPane) this.getRoot();
-        root2.setStyle("-fx-background-color: YELLOW;");
+        root2.setStyle("-fx-background-color: #beeef7;");
     }
 
     public AnchorPane getPane()
