@@ -11,6 +11,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import game.ui.PongSubScene;
 
+import java.util.Random;
+
 public class GameView
 {
     private Stage gameStage;
@@ -28,6 +30,7 @@ public class GameView
     private Color opponentColor = Color.rgb(50,122,178);
 
     private boolean cooldown = false;
+    private Random rnd = new Random();
 
     // When the player hits the ball as they are going up or down, it will change the y speed of the ball
     // Make it so that every time that the ball bounces off the ceiling or ground, the x and y speeds with revert to default
@@ -97,7 +100,75 @@ public class GameView
 
     private void checkForCollision()
     {
+        if (ball.getTranslateY() >= player.getTranslateY() && ball.getTranslateY() <= player.getTranslateY() + 33)
+        {
+            if (ball.getTranslateX() <= -530 && ball.getTranslateX() >= -540)
+            {
+                ball.setColor(Color.RED);
+                ball.setXSpeed(-ball.getXSpeed());
+                ball.setYSpeed(8);
+            }
+        }
+        else if (ball.getTranslateY() >= player.getTranslateY() + 66 && ball.getTranslateY() <= player.getTranslateY() + 100)
+        {
+            if (ball.getTranslateX() <= -530 && ball.getTranslateX() >= -540)
+            {
+                ball.setColor(Color.RED);
+                ball.setXSpeed(-ball.getXSpeed());
+                ball.setYSpeed(-8);
+            }
+        }
+        else if (ball.getTranslateY() >= player.getTranslateY() + 33 && ball.getTranslateY() <= player.getTranslateY() + 66)
+        {
+            if (ball.getTranslateX() <= -530 && ball.getTranslateX() >= -540)
+            {
+                ball.setColor(Color.RED);
+                ball.setXSpeed(-ball.getXSpeed());
+                if (rnd.nextInt(1) == 0)
+                {
+                    ball.setYSpeed(-2);
+                }
+                else
+                {
+                    ball.setYSpeed(2);
+                }
+            }
+        }
 
+        if (ball.getTranslateY() >= opponent.getTranslateY() && ball.getTranslateY() <= opponent.getTranslateY() + 33)
+        {
+            if (ball.getTranslateX() >= 510 && ball.getTranslateX() <= 515)
+            {
+                ball.setColor(Color.RED);
+                ball.setXSpeed(-ball.getXSpeed());
+                ball.setYSpeed(8);
+            }
+        }
+        else if (ball.getTranslateY() >= opponent.getTranslateY() + 66 && ball.getTranslateY() <= opponent.getTranslateY() + 100)
+        {
+            if (ball.getTranslateX() >= 510 && ball.getTranslateX() <= 515)
+            {
+                ball.setColor(Color.RED);
+                ball.setXSpeed(-ball.getXSpeed());
+                ball.setYSpeed(-8);
+            }
+        }
+        else if (ball.getTranslateY() >= opponent.getTranslateY() + 33 && ball.getTranslateY() <= opponent.getTranslateY() + 66)
+        {
+            if (ball.getTranslateX() >= 510 && ball.getTranslateX() <= 515)
+            {
+                ball.setColor(Color.RED);
+                ball.setXSpeed(-ball.getXSpeed());
+                if (rnd.nextInt(1) == 0)
+                {
+                    ball.setYSpeed(-2);
+                }
+                else
+                {
+                    ball.setYSpeed(2);
+                }
+            }
+        }
     }
 
     private void createSubScene()
