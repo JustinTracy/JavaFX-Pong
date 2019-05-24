@@ -17,7 +17,7 @@ public class Ball extends Rectangle
     public Ball(PongSubScene pongSubScene)
     {
         this.pongSubScene = pongSubScene;
-        this.setFill(Color.WHITE);
+        this.setFill(Color.BLACK);
         this.setWidth(SIZE);
         this.setHeight(SIZE);
 
@@ -39,15 +39,6 @@ public class Ball extends Rectangle
 
     private void move()
     {
-        if (this.getTranslateX() == -575)
-        {
-            xSpeed = -xSpeed;
-        }
-        if (this.getTranslateX() == 555)
-        {
-            xSpeed = -xSpeed;
-        }
-
         if (this.getTranslateY() == -230)
         {
             ySpeed = -ySpeed;
@@ -61,9 +52,24 @@ public class Ball extends Rectangle
         this.setTranslateX(this.getTranslateX() - xSpeed);
     }
 
+    public void stopAnimationTimer()
+    {
+        animationTimer.stop();
+    }
+
+    public void startAnimationTimer()
+    {
+        animationTimer.start();
+    }
+
     public void setXSpeed(int speed)
     {
         xSpeed = speed;
+    }
+
+    public void setYSpeed(int speed)
+    {
+        ySpeed = speed;
     }
 
     public int getXSpeed()

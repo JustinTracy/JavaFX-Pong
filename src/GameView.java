@@ -20,6 +20,8 @@ public class GameView
     private Color playerColor = Color.rgb(178,34,34);
     private Color opponentColor = Color.rgb(50,122,178);
 
+    private boolean cooldown = false;
+
     public GameView()
     {
         gameStage = new Stage();
@@ -44,9 +46,43 @@ public class GameView
             public void handle(long now)
             {
                 checkForCollision();
+                checkForPoint();
             }
         };
         animationTimer.start();
+    }
+
+    private void checkForPoint()
+    {
+        if (ball.getTranslateX() < -600)
+        {
+            if (!cooldown)
+            {
+                cooldown = true;
+                relocateBall();
+                Thread thread = new Thread(new NewPoint(ball, this));
+                thread.start();
+            }
+        }
+        if (ball.getTranslateX() > 600)
+        {
+            if (!cooldown)
+            {
+                cooldown = true;
+                relocateBall();
+                Thread thread = new Thread(new NewPoint(ball, this));
+                thread.start();
+            }
+        }
+    }
+
+    private void relocateBall()
+    {
+        ball.setFill(Color.BLACK);
+        ball.setXSpeed(0);
+        ball.setYSpeed(0);
+        ball.setTranslateX(0);
+        ball.setTranslateY(0);
     }
 
     private void checkForCollision()
@@ -94,5 +130,10 @@ public class GameView
 
         pongSubScene.getPane().getChildren().addAll(ball, player, opponent);
         gamePane.getChildren().add(pongSubScene);
+    }
+
+    public void setCooldown(boolean cooldown)
+    {
+        this.cooldown = cooldown;
     }
 }
