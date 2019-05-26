@@ -6,7 +6,9 @@ import game.Player;
 import game.threads.NewPoint;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -38,27 +40,42 @@ public class GameView
     private Random rnd = new Random();
     private Thread newPointThread;
 
+    private Font font = Font.loadFont(new FileInputStream(new File("src/view/resources/custom_font.TTF")), 12);
+    private Font font2 = Font.loadFont(new FileInputStream(new File("src/view/resources/custom_font.TTF")), 22);
+
     private PongSubScene scoreSubScene;
     private Label playerScore;
     private Label dashLbl;
     private Label opponentScore;
     private static final String LABEL_STYLE = "-fx-spacing: 20; -fx-text-fill: #b206b0;";
+    private static final String BUTTON_STYLE = "-fx-background-radius: 8; -fx-spacing: 20; -fx-text-fill: #e41749; " +
+                                               "-fx-background-color: linear-gradient(#0f0c29, #302b63, #24243e); -fx-cursor: hand;";
+    private static final String TITLE_STYLE = "-fx-spacing: 20; -fx-text-fill: #ff8a5c;";
+
+    private PongSubScene endGameSubScene;
+    private Button menuButton;
+    private Button replayButton;
+    private Label resultLabel;
+
+    private int playerLivesLeft = 3;
+    private int opponentLivesLeft = 3;
+    private boolean gameDone = false;
 
     public GameView() throws FileNotFoundException
     {
         gameStage = new Stage();
         gameStage.setTitle("Pong");
         gameStage.setMaximized(true);
-        gameStage.setResizable(true);
+        gameStage.setResizable(true); //Set resizable to false when done
         gamePane = new AnchorPane();
         gamePane.setStyle("-fx-background-color: BLACK;");
         gameScene = new Scene(gamePane);
         gameStage.setScene(gameScene);
         gameStage.show();
-        //Set resizable to false when done
         createSubScene();
-        createAnimationTimer();
         createScoreSubScene();
+        createAnimationTimer();
+        createTitleLabel();
     }
 
     private void createAnimationTimer()
@@ -68,6 +85,7 @@ public class GameView
             @Override
             public void handle(long now)
             {
+                endGame();
                 checkForCollision();
                 checkForPoint();
             }
@@ -75,25 +93,127 @@ public class GameView
         animationTimer.start();
     }
 
+    private void createTitleLabel()
+    {
+        Label titleLabel = new Label("PONG");
+        titleLabel.setStyle(TITLE_STYLE);
+        titleLabel.setFont(font);
+        titleLabel.setScaleX(5);
+        titleLabel.setScaleY(5);
+        titleLabel.setLayoutX(630);
+        titleLabel.setLayoutY(40);
+        gamePane.getChildren().add(titleLabel);
+    }
+
+    private void createEndGameSubScene(boolean didPlayerWin)
+    {
+        endGameSubScene = new PongSubScene(500, 400, 400, 125);
+        endGameSubScene.getPane().setStyle("-fx-background-color: transparent;");
+
+        resultLabel = new Label("You won!");
+        if (!didPlayerWin)
+        {
+            resultLabel.setText("You Lost");
+        }
+        resultLabel.setScaleX(1.5);
+        resultLabel.setScaleY(1.5);
+        resultLabel.setStyle(LABEL_STYLE);
+        resultLabel.setLayoutX(175);
+        resultLabel.setLayoutY(100);
+        resultLabel.setFont(font2);
+
+        menuButton = new Button("Menu");
+        menuButton.setOnMouseEntered(e ->
+        {
+            menuButton.setEffect(new DropShadow());
+        });
+        menuButton.setOnMouseExited(e ->
+        {
+            menuButton.setEffect(null);
+        });
+        menuButton.setOnAction(e ->
+        {
+
+        });
+        menuButton.setStyle(BUTTON_STYLE);
+        menuButton.setLayoutX(175);
+        menuButton.setLayoutY(150);
+        menuButton.setPrefSize(150, 50);
+        menuButton.setFont(font2);
+
+        replayButton = new Button("Replay");
+        replayButton.setOnMouseEntered(e ->
+        {
+            replayButton.setEffect(new DropShadow());
+        });
+        replayButton.setOnMouseExited(e ->
+        {
+            replayButton.setEffect(null);
+        });
+        replayButton.setOnAction(e ->
+        {
+            try
+            {
+                newGame();
+            } catch (FileNotFoundException ex)
+            {
+                ex.printStackTrace();
+            }
+        });
+        replayButton.setStyle(BUTTON_STYLE);
+        replayButton.setLayoutX(175);
+        replayButton.setLayoutY(250);
+        replayButton.setPrefSize(150, 50);
+        replayButton.setFont(font2);
+
+        endGameSubScene.getPane().getChildren().addAll(resultLabel, menuButton, replayButton);
+        gamePane.getChildren().add(endGameSubScene);
+    }
+
+    private void endGame()
+    {
+        if (!gameDone)
+        {
+            if (playerLivesLeft == 0)
+            {
+                gameDone = true;
+                ball.setFill(Color.BLACK);
+                ball.setXSpeed(0);
+                ball.setYSpeed(0);
+                ball.setTranslateX(545);
+                ball.setTranslateY(5000);
+                createEndGameSubScene(false);
+            }
+            if (opponentLivesLeft == 0)
+            {
+                gameDone = true;
+                ball.setFill(Color.BLACK);
+                ball.setXSpeed(0);
+                ball.setYSpeed(0);
+                ball.setTranslateX(545);
+                ball.setTranslateY(5000);
+                createEndGameSubScene(true);
+            }
+        }
+    }
+
     private void updateScore(boolean player)
     {
         if (player)
         {
-            int score = Integer.parseInt(playerScore.getText()) - 1;
-            playerScore.setText(String.valueOf(score));
+            playerLivesLeft--;
+            playerScore.setText(String.valueOf(playerLivesLeft));
         }
         else
         {
-            int score = Integer.parseInt(opponentScore.getText()) - 1;
-            opponentScore.setText(String.valueOf(score));
+            opponentLivesLeft--;
+            opponentScore.setText(String.valueOf(opponentLivesLeft));
         }
     }
 
-    private void createScoreSubScene() throws FileNotFoundException
+    private void createScoreSubScene()
     {
         scoreSubScene = new PongSubScene(300, 100, 500, 575);
-        Font font = Font.loadFont(new FileInputStream(new File("src/view/resources/custom_font.TTF")), 12);
-
         playerScore = new Label("3");
         dashLbl = new Label("  -  ");
         opponentScore = new Label("3");
@@ -127,26 +247,29 @@ public class GameView
 
     private void checkForPoint()
     {
-        if (ball.getTranslateX() <= -600)
+        if (!gameDone)
         {
-            if (!cooldown)
+            if (ball.getTranslateX() <= -600)
             {
-                updateScore(true);
-                cooldown = true;
-                relocateBall();
-                newPointThread = new Thread(new NewPoint(ball, this));
-                newPointThread.start();
+                if (!cooldown)
+                {
+                    updateScore(true);
+                    cooldown = true;
+                    relocateBall();
+                    newPointThread = new Thread(new NewPoint(ball, this));
+                    newPointThread.start();
+                }
             }
-        }
-        if (ball.getTranslateX() >= 600)
-        {
-            if (!cooldown)
+            if (ball.getTranslateX() >= 600)
             {
-                updateScore(false);
-                cooldown = true;
-                relocateBall();
-                newPointThread = new Thread(new NewPoint(ball, this));
-                newPointThread.start();
+                if (!cooldown)
+                {
+                    updateScore(false);
+                    cooldown = true;
+                    relocateBall();
+                    newPointThread = new Thread(new NewPoint(ball, this));
+                    newPointThread.start();
+                }
             }
         }
     }
@@ -253,6 +376,16 @@ public class GameView
 
         pongSubScene.getPane().getChildren().addAll(ball, player, opponent);
         gamePane.getChildren().add(pongSubScene);
+    }
+
+    public void newGame() throws FileNotFoundException
+    {
+        gameDone = false;
+        playerLivesLeft = 3;
+        opponentLivesLeft = 3;
+        playerScore.setText("3");
+        opponentScore.setText("3");
+        gamePane.getChildren().remove(endGameSubScene);
     }
 
     public void setCooldown(boolean cooldown)

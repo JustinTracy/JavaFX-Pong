@@ -14,7 +14,7 @@ public class Ball extends Rectangle
     private PongSubScene pongSubScene;
 
     private static final int SIZE = 20;
-    private static int xSpeed = 10;
+    private static int xSpeed = -10;
     private static int ySpeed = 8;
 
     public Ball(PongSubScene pongSubScene)
