@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Random;
+import java.util.Scanner;
 
 public class GameView
 {
@@ -133,7 +134,15 @@ public class GameView
         });
         menuButton.setOnAction(e ->
         {
-
+            gameStage.close();
+            try
+            {
+                MenuView menuView = new MenuView();
+            }
+            catch (FileNotFoundException ex)
+            {
+                ex.printStackTrace();
+            }
         });
         menuButton.setStyle(BUTTON_STYLE);
         menuButton.setLayoutX(175);
@@ -181,7 +190,7 @@ public class GameView
                 ball.setXSpeed(0);
                 ball.setYSpeed(0);
                 ball.setTranslateX(0);
-                ball.setTranslateY(60);
+                ball.setTranslateY(-400);
                 createEndGameSubScene(false);
             }
             if (opponentLivesLeft == 0)
@@ -191,7 +200,7 @@ public class GameView
                 ball.setXSpeed(0);
                 ball.setYSpeed(0);
                 ball.setTranslateX(0);
-                ball.setTranslateY(60);
+                ball.setTranslateY(-400);
                 createEndGameSubScene(true);
             }
         }
