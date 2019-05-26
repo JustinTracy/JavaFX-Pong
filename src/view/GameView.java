@@ -61,12 +61,12 @@ public class GameView
     private int opponentLivesLeft = 3;
     private boolean gameDone = false;
 
-    public GameView() throws FileNotFoundException
+    public GameView() throws FileNotFoundException, InterruptedException
     {
         gameStage = new Stage();
         gameStage.setTitle("Pong");
         gameStage.setMaximized(true);
-        gameStage.setResizable(true); //Set resizable to false when done
+        gameStage.setResizable(false);
         gamePane = new AnchorPane();
         gamePane.setStyle("-fx-background-color: BLACK;");
         gameScene = new Scene(gamePane);
@@ -180,8 +180,8 @@ public class GameView
                 ball.setFill(Color.BLACK);
                 ball.setXSpeed(0);
                 ball.setYSpeed(0);
-                ball.setTranslateX(545);
-                ball.setTranslateY(5000);
+                ball.setTranslateX(0);
+                ball.setTranslateY(60);
                 createEndGameSubScene(false);
             }
             if (opponentLivesLeft == 0)
@@ -190,8 +190,8 @@ public class GameView
                 ball.setFill(Color.BLACK);
                 ball.setXSpeed(0);
                 ball.setYSpeed(0);
-                ball.setTranslateX(545);
-                ball.setTranslateY(5000);
+                ball.setTranslateX(0);
+                ball.setTranslateY(60);
                 createEndGameSubScene(true);
             }
         }
