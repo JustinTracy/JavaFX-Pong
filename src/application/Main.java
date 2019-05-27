@@ -10,6 +10,9 @@ public class Main extends Application
     public void start(Stage primaryStage) throws Exception
     {
         MenuView menuView = new MenuView();
+        primaryStage = menuView.getMainStage();
+        primaryStage.setTitle("SpaceRunner");
+        primaryStage.show();
     }
 
     public static void main(String[] args)

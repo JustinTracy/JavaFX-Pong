@@ -7,7 +7,6 @@ import game.threads.NewPoint;
 import game.ui.PongButton;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -22,9 +21,13 @@ import java.util.Random;
 
 public class GameView
 {
+    private Stage previousStage;
+
     private Stage gameStage;
     private AnchorPane gamePane;
     private Scene gameScene;
+
+    private Stage menuStage;
 
     private PongSubScene pongSubScene;
     private Player player;
@@ -48,13 +51,9 @@ public class GameView
     private Label dashLbl;
     private Label opponentScore;
     private static final String LABEL_STYLE = "-fx-spacing: 20; -fx-text-fill: #b206b0;";
-    private static final String BUTTON_STYLE = "-fx-background-radius: 8; -fx-spacing: 20; -fx-text-fill: #e41749; " +
-                                               "-fx-background-color: linear-gradient(#0f0c29, #302b63, #24243e); -fx-cursor: hand;";
     private static final String TITLE_STYLE = "-fx-spacing: 20; -fx-text-fill: #ff8a5c;";
 
     private PongSubScene endGameSubScene;
-    private Button menuButton;
-    private Button replayButton;
     private Label resultLabel;
 
     private int playerLivesLeft = 3;
@@ -66,12 +65,11 @@ public class GameView
         gameStage = new Stage();
         gameStage.setTitle("Pong");
         gameStage.setMaximized(true);
-        gameStage.setResizable(false);
+        gameStage.setResizable(true);
         gamePane = new AnchorPane();
         gamePane.setStyle("-fx-background-color: BLACK;");
         gameScene = new Scene(gamePane);
         gameStage.setScene(gameScene);
-        gameStage.show();
         createSubScene();
         createScoreSubScene();
         createAnimationTimer();
@@ -111,14 +109,7 @@ public class GameView
         titleLabel.setLayoutY(40);
         titleLabel.setOnMouseClicked(e ->
         {
-            try
-            {
-                playerLivesLeft = 0;
-                endGame();
-            } catch (FileNotFoundException ex)
-            {
-                ex.printStackTrace();
-            }
+            System.out.println(pongSubScene.getHeight());
         });
         gamePane.getChildren().add(titleLabel);
     }
@@ -144,10 +135,15 @@ public class GameView
         menuButton.setTextFill(Color.BLACK);
         menuButton.setOnAction(e ->
         {
-            gameStage.close();
+            gameStage.hide();
             try
             {
+                newGame();
+                animationTimer.stop();
+                gamePane.getChildren().remove(pongSubScene);
+                createSubScene();
                 MenuView menuView = new MenuView();
+                menuView.changeScenes(gameStage);
             }
             catch (FileNotFoundException ex)
             {
@@ -155,25 +151,7 @@ public class GameView
             }
         });
 
-        PongButton replayButton = new PongButton("Play Again", 75, 250, false);
-        replayButton.setOnAction(e ->
-        {
-            gameStage.close();
-            try
-            {
-                GameView gameView = new GameView();
-            }
-            catch (FileNotFoundException ex)
-            {
-                ex.printStackTrace();
-            }
-            catch (InterruptedException ex)
-            {
-                ex.printStackTrace();
-            }
-        });
-
-        endGameSubScene.getPane().getChildren().addAll(resultLabel, menuButton, replayButton);
+        endGameSubScene.getPane().getChildren().addAll(resultLabel, menuButton);
         gamePane.getChildren().add(endGameSubScene);
     }
 
@@ -387,9 +365,9 @@ public class GameView
 
     public void newGame() throws FileNotFoundException
     {
-        gameDone = false;
         playerLivesLeft = 3;
         opponentLivesLeft = 3;
+        gameDone = false;
         playerScore.setText("3");
         opponentScore.setText("3");
         gamePane.getChildren().remove(endGameSubScene);
@@ -398,5 +376,13 @@ public class GameView
     public void setCooldown(boolean cooldown)
     {
         this.cooldown = cooldown;
+    }
+
+    public void createNewGame(Stage menuStage) throws FileNotFoundException
+    {
+        this.menuStage = menuStage;
+        this.menuStage.hide();
+
+        gameStage.show();
     }
 }

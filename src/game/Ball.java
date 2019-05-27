@@ -42,11 +42,11 @@ public class Ball extends Rectangle
 
     private void move()
     {
-        if (this.getTranslateY() <= -230)
+        if (this.getTranslateY() == -232)
         {
             ySpeed = -ySpeed;
         }
-        if (this.getTranslateY() >= 210)
+        if (this.getTranslateY() == 216)
         {
             ySpeed = -ySpeed;
         }

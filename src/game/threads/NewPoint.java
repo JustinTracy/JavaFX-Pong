@@ -24,6 +24,9 @@ public class NewPoint implements Runnable
     @Override
     public void run()
     {
+        ball.setTranslateX(0);
+        ball.setTranslateY(0);
+
         try
         {
             Thread.sleep(3000);

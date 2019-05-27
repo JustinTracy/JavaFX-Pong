@@ -15,11 +15,11 @@ import java.io.FileNotFoundException;
 
 public class MenuView
 {
+    private Stage previousStage;
+
     private Stage menuStage;
     private AnchorPane menuPane;
     private Scene menuScene;
-
-    private AnimationTimer animationTimer;
 
     private Font font;
     private static final String LABEL_STYLE = "-fx-spacing: 20; -fx-text-fill: #b206b0;";
@@ -35,7 +35,6 @@ public class MenuView
         menuPane.setStyle("-fx-background-color: BLACK;");
         menuScene = new Scene(menuPane);
         menuStage.setScene(menuScene);
-        menuStage.show();
 
         loadFont();
         createTitle();
@@ -47,10 +46,11 @@ public class MenuView
         PongButton singlePlayerButton = new PongButton("Single Player", 650, 175, true);
         singlePlayerButton.setOnAction(e ->
         {
-            menuStage.close();
+            menuStage.hide();
             try
             {
                 GameView gameView = new GameView();
+                gameView.createNewGame(menuStage);
             }
             catch (FileNotFoundException ex)
             {
@@ -67,7 +67,7 @@ public class MenuView
         PongButton helpButton = new PongButton("Help", 650, 375, true);
 
         PongButton exitButton = new PongButton("Exit", 650, 475, true);
-        exitButton.setOnAction(e -> menuStage.close());
+        exitButton.setOnAction(e -> menuStage.hide());
 
         menuPane.getChildren().addAll(singlePlayerButton, twoPlayerButton, helpButton, exitButton);
     }
@@ -87,6 +87,18 @@ public class MenuView
     private void loadFont() throws FileNotFoundException
     {
         font = Font.loadFont(new FileInputStream(new File("src/view/resources/custom_font.TTF")), 22);
+    }
+
+    public Stage getMainStage()
+    {
+        return menuStage;
+    }
+
+    public void changeScenes(Stage previousStage)
+    {
+        this.previousStage = previousStage;
+        previousStage.hide();
+        menuStage.show();
     }
 }
 
