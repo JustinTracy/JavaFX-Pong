@@ -4,11 +4,11 @@ import game.Ball;
 import game.Opponent;
 import game.Player;
 import game.threads.NewPoint;
+import game.ui.PongButton;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Random;
-import java.util.Scanner;
 
 public class GameView
 {
@@ -86,7 +85,14 @@ public class GameView
             @Override
             public void handle(long now)
             {
-                endGame();
+                try
+                {
+                    endGame();
+                }
+                catch (FileNotFoundException e)
+                {
+                    e.printStackTrace();
+                }
                 checkForCollision();
                 checkForPoint();
             }
@@ -103,10 +109,21 @@ public class GameView
         titleLabel.setScaleY(5);
         titleLabel.setLayoutX(630);
         titleLabel.setLayoutY(40);
+        titleLabel.setOnMouseClicked(e ->
+        {
+            try
+            {
+                playerLivesLeft = 0;
+                endGame();
+            } catch (FileNotFoundException ex)
+            {
+                ex.printStackTrace();
+            }
+        });
         gamePane.getChildren().add(titleLabel);
     }
 
-    private void createEndGameSubScene(boolean didPlayerWin)
+    private void createEndGameSubScene(boolean didPlayerWin) throws FileNotFoundException
     {
         endGameSubScene = new PongSubScene(500, 400, 400, 125);
         endGameSubScene.getPane().setStyle("-fx-background-color: transparent;");
@@ -123,15 +140,8 @@ public class GameView
         resultLabel.setLayoutY(100);
         resultLabel.setFont(font2);
 
-        menuButton = new Button("Menu");
-        menuButton.setOnMouseEntered(e ->
-        {
-            menuButton.setEffect(new DropShadow());
-        });
-        menuButton.setOnMouseExited(e ->
-        {
-            menuButton.setEffect(null);
-        });
+        PongButton menuButton = new PongButton("Main Menu", 75, 150, false);
+        menuButton.setTextFill(Color.BLACK);
         menuButton.setOnAction(e ->
         {
             gameStage.close();
@@ -144,42 +154,30 @@ public class GameView
                 ex.printStackTrace();
             }
         });
-        menuButton.setStyle(BUTTON_STYLE);
-        menuButton.setLayoutX(175);
-        menuButton.setLayoutY(150);
-        menuButton.setPrefSize(150, 50);
-        menuButton.setFont(font2);
 
-        replayButton = new Button("Replay");
-        replayButton.setOnMouseEntered(e ->
-        {
-            replayButton.setEffect(new DropShadow());
-        });
-        replayButton.setOnMouseExited(e ->
-        {
-            replayButton.setEffect(null);
-        });
+        PongButton replayButton = new PongButton("Play Again", 75, 250, false);
         replayButton.setOnAction(e ->
         {
+            gameStage.close();
             try
             {
-                newGame();
-            } catch (FileNotFoundException ex)
+                GameView gameView = new GameView();
+            }
+            catch (FileNotFoundException ex)
+            {
+                ex.printStackTrace();
+            }
+            catch (InterruptedException ex)
             {
                 ex.printStackTrace();
             }
         });
-        replayButton.setStyle(BUTTON_STYLE);
-        replayButton.setLayoutX(175);
-        replayButton.setLayoutY(250);
-        replayButton.setPrefSize(150, 50);
-        replayButton.setFont(font2);
 
         endGameSubScene.getPane().getChildren().addAll(resultLabel, menuButton, replayButton);
         gamePane.getChildren().add(endGameSubScene);
     }
 
-    private void endGame()
+    private void endGame() throws FileNotFoundException
     {
         if (!gameDone)
         {

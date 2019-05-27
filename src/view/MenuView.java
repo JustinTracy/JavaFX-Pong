@@ -1,5 +1,6 @@
 package view;
 
+import game.ui.PongButton;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,8 +23,6 @@ public class MenuView
 
     private Font font;
     private static final String LABEL_STYLE = "-fx-spacing: 20; -fx-text-fill: #b206b0;";
-    private static final String BUTTON_STYLE = "-fx-background-radius: 8; -fx-spacing: 20; -fx-text-fill: #e41749; " +
-            "-fx-background-color: linear-gradient(#0f0c29, #302b63, #24243e); -fx-cursor: hand;";
     private static final String TITLE_STYLE = "-fx-spacing: 20; -fx-text-fill: #ff8a5c;";
 
     public MenuView() throws FileNotFoundException
@@ -43,55 +42,34 @@ public class MenuView
         createButtons();
     }
 
-    private void createButtons()
+    private void createButtons() throws FileNotFoundException
     {
-        Button singlePlayerBtn = new Button("Single Player");
-        singlePlayerBtn.setStyle(BUTTON_STYLE);
-        singlePlayerBtn.setFont(font);
-        singlePlayerBtn.setPrefSize(250, 50);
-        singlePlayerBtn.setLayoutX(650);
-        singlePlayerBtn.setLayoutY(175);
-        singlePlayerBtn.setOnAction(e ->
+        PongButton singlePlayerButton = new PongButton("Single Player", 650, 175, true);
+        singlePlayerButton.setOnAction(e ->
         {
             menuStage.close();
             try
             {
                 GameView gameView = new GameView();
             }
-            catch (FileNotFoundException | InterruptedException ex)
+            catch (FileNotFoundException ex)
+            {
+                ex.printStackTrace();
+            }
+            catch (InterruptedException ex)
             {
                 ex.printStackTrace();
             }
         });
 
-        Button twoPlayerBtn = new Button("Two Player");
-        twoPlayerBtn.setStyle(BUTTON_STYLE);
-        twoPlayerBtn.setFont(font);
-        twoPlayerBtn.setPrefSize(250, 50);
-        twoPlayerBtn.setLayoutX(650);
-        twoPlayerBtn.setLayoutY(275);
+        PongButton twoPlayerButton = new PongButton("Two Player", 650, 275, true);
 
+        PongButton helpButton = new PongButton("Help", 650, 375, true);
 
-        Button helpBtn = new Button("Help");
-        helpBtn.setStyle(BUTTON_STYLE);
-        helpBtn.setFont(font);
-        helpBtn.setPrefSize(250, 50);
-        helpBtn.setLayoutX(650);
-        helpBtn.setLayoutY(375);
+        PongButton exitButton = new PongButton("Exit", 650, 475, true);
+        exitButton.setOnAction(e -> menuStage.close());
 
-
-        Button quitBtn = new Button("Exit");
-        quitBtn.setStyle(BUTTON_STYLE);
-        quitBtn.setFont(font);
-        quitBtn.setPrefSize(250, 50);
-        quitBtn.setLayoutX(650);
-        quitBtn.setLayoutY(475);
-        quitBtn.setOnAction(e ->
-        {
-            menuStage.close();
-        });
-
-        menuPane.getChildren().addAll(singlePlayerBtn, twoPlayerBtn, helpBtn, quitBtn);
+        menuPane.getChildren().addAll(singlePlayerButton, twoPlayerButton, helpButton, exitButton);
     }
 
     private void createTitle()
