@@ -152,55 +152,55 @@ public class TwoPlayerGame
     {
         if (isUpKeyPressed && !isDownKeyPressed && isWKeyPressed && !isSKeyPressed)
         {
-            player.setTranslateY(player.getTranslateY() - SPEED);
             player2.setTranslateY(player2.getTranslateY() - SPEED);
+            player.setTranslateY(player2.getTranslateY() - SPEED);
         }
         else if (!isUpKeyPressed && isDownKeyPressed && !isWKeyPressed && isSKeyPressed)
         {
-            player.setTranslateY(player.getTranslateY() + SPEED);
             player2.setTranslateY(player2.getTranslateY() + SPEED);
+            player.setTranslateY(player.getTranslateY() + SPEED);
         }
         else if (isUpKeyPressed && !isDownKeyPressed && !isWKeyPressed && isSKeyPressed)
         {
-            player.setTranslateY(player.getTranslateY() - SPEED);
-            player2.setTranslateY(player2.getTranslateY() + SPEED);
+            player2.setTranslateY(player2.getTranslateY() - SPEED);
+            player.setTranslateY(player.getTranslateY() + SPEED);
         }
         else if (!isUpKeyPressed && isDownKeyPressed && isWKeyPressed && !isSKeyPressed)
         {
-            player.setTranslateY(player.getTranslateY() + SPEED);
-            player2.setTranslateY(player2.getTranslateY() - SPEED);
+            player2.setTranslateY(player2.getTranslateY() + SPEED);
+            player.setTranslateY(player.getTranslateY() - SPEED);
         }
         else if (isUpKeyPressed && !isDownKeyPressed && !isWKeyPressed && !isSKeyPressed)
         {
-            player.setTranslateY(player.getTranslateY() - SPEED);
+            player2.setTranslateY(player2.getTranslateY() - SPEED);
         }
         else if (!isUpKeyPressed && isDownKeyPressed && !isWKeyPressed && !isSKeyPressed)
         {
-            player.setTranslateY(player.getTranslateY() + SPEED);
+            player2.setTranslateY(player2.getTranslateY() + SPEED);
         }
         else if (!isUpKeyPressed && !isDownKeyPressed && isWKeyPressed && !isSKeyPressed)
         {
-            player2.setTranslateY(player2.getTranslateY() - SPEED);
+            player.setTranslateY(player.getTranslateY() - SPEED);
         }
         else if (!isUpKeyPressed && !isDownKeyPressed && !isWKeyPressed && isSKeyPressed)
         {
-            player2.setTranslateY(player2.getTranslateY() + SPEED);
+            player.setTranslateY(player.getTranslateY() + SPEED);
         }
         if (isUpKeyPressed && isDownKeyPressed && isWKeyPressed && !isSKeyPressed)
         {
-            player2.setTranslateY(player2.getTranslateY() - SPEED);
+            player.setTranslateY(player.getTranslateY() - SPEED);
         }
         if (isUpKeyPressed && isDownKeyPressed && !isWKeyPressed && isSKeyPressed)
         {
-            player2.setTranslateY(player2.getTranslateY() + SPEED);
+            player.setTranslateY(player.getTranslateY() + SPEED);
         }
         if (isUpKeyPressed && !isDownKeyPressed && isWKeyPressed && isSKeyPressed)
         {
-            player.setTranslateY(player.getTranslateY() - SPEED);
+            player2.setTranslateY(player2.getTranslateY() - SPEED);
         }
         if (!isUpKeyPressed && isDownKeyPressed && isWKeyPressed && !isSKeyPressed)
         {
-            player.setTranslateY(player.getTranslateY() + SPEED);
+            player2.setTranslateY(player2.getTranslateY() + SPEED);
         }
     }
 
@@ -264,15 +264,15 @@ public class TwoPlayerGame
         endGameSubScene = new PongSubScene(500, 400, 400, 125);
         endGameSubScene.getPane().setStyle("-fx-background-color: transparent;");
 
-        resultLabel = new Label("You won!");
+        resultLabel = new Label("Player 1 Wins!");
         if (!didPlayerWin)
         {
-            resultLabel.setText("You Lost");
+            resultLabel.setText("Player 2 Wins!");
         }
         resultLabel.setScaleX(1.5);
         resultLabel.setScaleY(1.5);
         resultLabel.setStyle(LABEL_STYLE);
-        resultLabel.setLayoutX(175);
+        resultLabel.setLayoutX(150);
         resultLabel.setLayoutY(100);
         resultLabel.setFont(font2);
 
