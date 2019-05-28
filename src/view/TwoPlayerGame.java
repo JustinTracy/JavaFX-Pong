@@ -81,6 +81,7 @@ public class TwoPlayerGame
         createAnimationTimer();
         createTitleLabel();
         addListeners();
+        createMenuButton();
     }
 
     private void createAnimationTimer()
@@ -105,6 +106,25 @@ public class TwoPlayerGame
             }
         };
         animationTimer.start();
+    }
+
+    private void createMenuButton() throws FileNotFoundException
+    {
+        PongButton pongButton = new PongButton("Back to Menu", 880, 600, true);
+        pongButton.setOnAction(e ->
+        {
+            gameStage.hide();
+            try
+            {
+                MenuView menuView = new MenuView();
+                menuView.changeScenes(gameStage);
+            }
+            catch (FileNotFoundException ex)
+            {
+                ex.printStackTrace();
+            }
+        });
+        gamePane.getChildren().add(pongButton);
     }
 
     private void checkCollision()
