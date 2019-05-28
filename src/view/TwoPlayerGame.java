@@ -1,13 +1,13 @@
 package view;
 
 import game.Ball;
-import game.Opponent;
 import game.Player;
 import game.threads.NewPoint;
 import game.ui.PongButton;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -19,7 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Random;
 
-public class GameView
+public class TwoPlayerGame
 {
     private Stage previousStage;
 
@@ -31,7 +31,7 @@ public class GameView
 
     private PongSubScene pongSubScene;
     private Player player;
-    private Opponent opponent;
+    private Player player2;
     private Ball ball;
 
     private AnimationTimer animationTimer;
@@ -60,7 +60,13 @@ public class GameView
     private int opponentLivesLeft = 3;
     private boolean gameDone = false;
 
-    public GameView() throws FileNotFoundException, InterruptedException
+    private boolean isUpKeyPressed;
+    private boolean isDownKeyPressed;
+    private boolean isWKeyPressed;
+    private boolean isSKeyPressed;
+    private static final int SPEED = 5;
+
+    public TwoPlayerGame() throws FileNotFoundException
     {
         gameStage = new Stage();
         gameStage.setTitle("Pong");
@@ -74,6 +80,7 @@ public class GameView
         createScoreSubScene();
         createAnimationTimer();
         createTitleLabel();
+        addListeners();
     }
 
     private void createAnimationTimer()
@@ -91,11 +98,133 @@ public class GameView
                 {
                     e.printStackTrace();
                 }
+                checkCollision();
+                movePlayers();
                 checkForCollision();
                 checkForPoint();
             }
         };
         animationTimer.start();
+    }
+
+    private void checkCollision()
+    {
+        if (player.getTranslateY() <= -225)
+        {
+            player.setTranslateY(player.getTranslateY() + SPEED);
+        }
+        if (player.getTranslateY() + 100 >= 225)
+        {
+            player.setTranslateY(player.getTranslateY() - SPEED);
+        }
+
+        if (player2.getTranslateY() <= -225)
+        {
+            player2.setTranslateY(player2.getTranslateY() + SPEED);
+        }
+        if (player2.getTranslateY() + 100 >= 225)
+        {
+            player2.setTranslateY(player2.getTranslateY() - SPEED);
+        }
+    }
+
+    private void movePlayers()
+    {
+        if (isUpKeyPressed && !isDownKeyPressed && isWKeyPressed && !isSKeyPressed)
+        {
+            player.setTranslateY(player.getTranslateY() - SPEED);
+            player2.setTranslateY(player2.getTranslateY() - SPEED);
+        }
+        else if (!isUpKeyPressed && isDownKeyPressed && !isWKeyPressed && isSKeyPressed)
+        {
+            player.setTranslateY(player.getTranslateY() + SPEED);
+            player2.setTranslateY(player2.getTranslateY() + SPEED);
+        }
+        else if (isUpKeyPressed && !isDownKeyPressed && !isWKeyPressed && isSKeyPressed)
+        {
+            player.setTranslateY(player.getTranslateY() - SPEED);
+            player2.setTranslateY(player2.getTranslateY() + SPEED);
+        }
+        else if (!isUpKeyPressed && isDownKeyPressed && isWKeyPressed && !isSKeyPressed)
+        {
+            player.setTranslateY(player.getTranslateY() + SPEED);
+            player2.setTranslateY(player2.getTranslateY() - SPEED);
+        }
+        else if (isUpKeyPressed && !isDownKeyPressed && !isWKeyPressed && !isSKeyPressed)
+        {
+            player.setTranslateY(player.getTranslateY() - SPEED);
+        }
+        else if (!isUpKeyPressed && isDownKeyPressed && !isWKeyPressed && !isSKeyPressed)
+        {
+            player.setTranslateY(player.getTranslateY() + SPEED);
+        }
+        else if (!isUpKeyPressed && !isDownKeyPressed && isWKeyPressed && !isSKeyPressed)
+        {
+            player2.setTranslateY(player2.getTranslateY() - SPEED);
+        }
+        else if (!isUpKeyPressed && !isDownKeyPressed && !isWKeyPressed && isSKeyPressed)
+        {
+            player2.setTranslateY(player2.getTranslateY() + SPEED);
+        }
+        if (isUpKeyPressed && isDownKeyPressed && isWKeyPressed && !isSKeyPressed)
+        {
+            player2.setTranslateY(player2.getTranslateY() - SPEED);
+        }
+        if (isUpKeyPressed && isDownKeyPressed && !isWKeyPressed && isSKeyPressed)
+        {
+            player2.setTranslateY(player2.getTranslateY() + SPEED);
+        }
+        if (isUpKeyPressed && !isDownKeyPressed && isWKeyPressed && isSKeyPressed)
+        {
+            player.setTranslateY(player.getTranslateY() - SPEED);
+        }
+        if (!isUpKeyPressed && isDownKeyPressed && isWKeyPressed && !isSKeyPressed)
+        {
+            player.setTranslateY(player.getTranslateY() + SPEED);
+        }
+    }
+
+    private void addListeners()
+    {
+        gameScene.setOnKeyPressed(e ->
+        {
+            if (e.getCode() == KeyCode.UP)
+            {
+                isUpKeyPressed = true;
+            }
+            if (e.getCode() == KeyCode.DOWN)
+            {
+                isDownKeyPressed = true;
+            }
+            if (e.getCode() == KeyCode.W)
+            {
+                isWKeyPressed = true;
+            }
+            if (e.getCode() == KeyCode.S)
+            {
+                isSKeyPressed = true;
+            }
+        });
+
+        gameScene.setOnKeyReleased(e ->
+        {
+            if (e.getCode() == KeyCode.UP)
+            {
+                isUpKeyPressed = false;
+            }
+            if (e.getCode() == KeyCode.DOWN)
+            {
+                isDownKeyPressed = false;
+            }
+            if (e.getCode() == KeyCode.W)
+            {
+                isWKeyPressed = false;
+            }
+            if (e.getCode() == KeyCode.S)
+            {
+                isSKeyPressed = false;
+            }
+        });
     }
 
     private void createTitleLabel()
@@ -154,10 +283,10 @@ public class GameView
             gameStage.hide();
             try
             {
-                MenuView menuView = new MenuView();
-                menuView.replay();
+                TwoPlayerGame twoPlayerGame = new TwoPlayerGame();
+                twoPlayerGame.createNewGame(gameStage);
             }
-            catch (FileNotFoundException | InterruptedException ex)
+            catch (FileNotFoundException ex)
             {
                 ex.printStackTrace();
             }
@@ -254,7 +383,7 @@ public class GameView
                     updateScore(true);
                     cooldown = true;
                     relocateBall();
-                    newPointThread = new Thread(new NewPoint(ball, this));
+                    newPointThread = new Thread(new NewPoint(ball, this, true));
                     newPointThread.start();
                 }
             }
@@ -265,7 +394,7 @@ public class GameView
                     updateScore(false);
                     cooldown = true;
                     relocateBall();
-                    newPointThread = new Thread(new NewPoint(ball, this));
+                    newPointThread = new Thread(new NewPoint(ball, this, true));
                     newPointThread.start();
                 }
             }
@@ -319,7 +448,7 @@ public class GameView
             }
         }
 
-        if (ball.getTranslateY() >= opponent.getTranslateY() && ball.getTranslateY() <= opponent.getTranslateY() + 33)
+        if (ball.getTranslateY() >= player2.getTranslateY() && ball.getTranslateY() <= player2.getTranslateY() + 33)
         {
             if (ball.getTranslateX() >= 510 && ball.getTranslateX() <= 515)
             {
@@ -328,7 +457,7 @@ public class GameView
                 ball.setYSpeed(8);
             }
         }
-        else if (ball.getTranslateY() >= opponent.getTranslateY() + 66 && ball.getTranslateY() <= opponent.getTranslateY() + 100)
+        else if (ball.getTranslateY() >= player2.getTranslateY() + 66 && ball.getTranslateY() <= player2.getTranslateY() + 100)
         {
             if (ball.getTranslateX() >= 510 && ball.getTranslateX() <= 515)
             {
@@ -337,7 +466,7 @@ public class GameView
                 ball.setYSpeed(-8);
             }
         }
-        else if (ball.getTranslateY() >= opponent.getTranslateY() + 33 && ball.getTranslateY() <= opponent.getTranslateY() + 66)
+        else if (ball.getTranslateY() >= player2.getTranslateY() + 33 && ball.getTranslateY() <= player2.getTranslateY() + 66)
         {
             if (ball.getTranslateX() >= 510 && ball.getTranslateX() <= 515)
             {
@@ -368,11 +497,11 @@ public class GameView
         ball.setLayoutX(575);
         ball.setLayoutY(225);
 
-        opponent = new Opponent(ball);
-        opponent.setLayoutX(1090);
-        opponent.setLayoutY(225);
+        player2 = new Player(gameScene, gamePane, true);
+        player2.setLayoutX(1090);
+        player2.setLayoutY(225);
 
-        pongSubScene.getPane().getChildren().addAll(ball, player, opponent);
+        pongSubScene.getPane().getChildren().addAll(ball, player, player2);
         gamePane.getChildren().add(pongSubScene);
     }
 

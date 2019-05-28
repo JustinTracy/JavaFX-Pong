@@ -30,6 +30,18 @@ public class Player extends Rectangle
         this.setHeight(100);
     }
 
+    public Player(Scene scene, AnchorPane pane, boolean player2)
+    {
+        this.scene = scene;
+        this.pane = pane;
+
+        createAnimationTimer();
+
+        this.setFill(Color.BLUE);
+        this.setWidth(20);
+        this.setHeight(100);
+    }
+
     private void createAnimationTimer()
     {
         animationTimer = new AnimationTimer()

@@ -2,6 +2,7 @@ package game.threads;
 
 import game.Ball;
 import view.GameView;
+import view.TwoPlayerGame;
 
 import java.util.Random;
 
@@ -12,8 +13,12 @@ public class NewPoint implements Runnable
 
     int randNum;
 
+    private TwoPlayerGame twoPlayerGame;
+
     private int directionX;
     private int directionY;
+
+    boolean multiPlayer = false;
 
     public NewPoint(Ball ball, GameView gameView)
     {
@@ -21,12 +26,16 @@ public class NewPoint implements Runnable
         this.gameView = gameView;
     }
 
+    public NewPoint(Ball ball, TwoPlayerGame twoPlayerGame, boolean multiPlayer)
+    {
+        this.multiPlayer = multiPlayer;
+        this.ball = ball;
+        this.twoPlayerGame = twoPlayerGame;
+    }
+
     @Override
     public void run()
     {
-        ball.setTranslateX(0);
-        ball.setTranslateY(0);
-
         try
         {
             Thread.sleep(3000);
@@ -62,6 +71,13 @@ public class NewPoint implements Runnable
 
         ball.setXSpeed(10 * directionX);
         ball.setYSpeed(8 * directionY);
-        gameView.setCooldown(false);
+        if (!multiPlayer)
+        {
+            gameView.setCooldown(false);
+        }
+        else
+        {
+            twoPlayerGame.setCooldown(false);
+        }
     }
 }

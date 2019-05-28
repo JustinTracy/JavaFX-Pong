@@ -22,7 +22,6 @@ public class MenuView
     private Scene menuScene;
 
     private Font font;
-    private static final String LABEL_STYLE = "-fx-spacing: 20; -fx-text-fill: #b206b0;";
     private static final String TITLE_STYLE = "-fx-spacing: 20; -fx-text-fill: #ff8a5c;";
 
     public MenuView() throws FileNotFoundException
@@ -63,6 +62,19 @@ public class MenuView
         });
 
         PongButton twoPlayerButton = new PongButton("Two Player", 650, 275, true);
+        twoPlayerButton.setOnAction(e ->
+        {
+            menuStage.hide();
+            try
+            {
+                TwoPlayerGame twoPlayerGame = new TwoPlayerGame();
+                twoPlayerGame.createNewGame(menuStage);
+            }
+            catch (FileNotFoundException ex)
+            {
+                ex.printStackTrace();
+            }
+        });
 
         PongButton helpButton = new PongButton("Help", 650, 375, true);
 
@@ -100,5 +112,13 @@ public class MenuView
         previousStage.hide();
         menuStage.show();
     }
+
+    public void replay() throws FileNotFoundException, InterruptedException
+    {
+        menuStage.hide();
+        GameView gameView = new GameView();
+        gameView.createNewGame(menuStage);
+    }
+
 }
 

@@ -5,11 +5,8 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import java.util.Random;
-
 public class Ball extends Rectangle
 {
-    private Random rnd = new Random();
     private AnimationTimer animationTimer;
     private PongSubScene pongSubScene;
 
