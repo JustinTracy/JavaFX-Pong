@@ -1,7 +1,9 @@
 package view;
 
 import game.ui.PongButton;
+import game.ui.PongSubScene;
 import javafx.animation.AnimationTimer;
+import javafx.animation.TranslateTransition;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -42,7 +44,7 @@ public class MenuView
 
     private void createButtons() throws FileNotFoundException
     {
-        PongButton singlePlayerButton = new PongButton("Single Player", 650, 175, true);
+        PongButton singlePlayerButton = new PongButton("Single Player", 650, 250, true);
         singlePlayerButton.setOnAction(e ->
         {
             menuStage.hide();
@@ -61,7 +63,7 @@ public class MenuView
             }
         });
 
-        PongButton twoPlayerButton = new PongButton("Two Player", 650, 275, true);
+        PongButton twoPlayerButton = new PongButton("Two Player", 650, 350, true);
         twoPlayerButton.setOnAction(e ->
         {
             menuStage.hide();
@@ -76,12 +78,10 @@ public class MenuView
             }
         });
 
-        PongButton helpButton = new PongButton("Help", 650, 375, true);
-
-        PongButton exitButton = new PongButton("Exit", 650, 475, true);
+        PongButton exitButton = new PongButton("Exit", 650, 450, true);
         exitButton.setOnAction(e -> menuStage.hide());
 
-        menuPane.getChildren().addAll(singlePlayerButton, twoPlayerButton, helpButton, exitButton);
+        menuPane.getChildren().addAll(singlePlayerButton, twoPlayerButton, exitButton);
     }
 
     private void createTitle()
