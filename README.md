@@ -1,5 +1,5 @@
 # JavaFX-Pong
-Classic Pong game created using JavaFX.  Includes both multiplayer and singleplayer against AI.<br>
+Classic Pong game created using JavaFX.  Includes both multiplayer and singleplayer against AI.<br><br>
 Controls for single-player: UP/DOWN<br>
 Controls for two-player: UP/DOWN, W/S
 <br><br>
